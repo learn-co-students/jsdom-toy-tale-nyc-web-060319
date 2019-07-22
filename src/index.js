@@ -92,7 +92,7 @@ function createButton(text, className, toy) {
   newButton.className = className;
   newButton.innerText = text;
   // debugger;
-  newButton.addEventListener('click', (event) => {
+  newButton.addEventListener('click', function likeEventHandler(event) {
     fetch(`http://localhost:3000/toys/${toy.id}`, {
       method: 'PATCH',
       headers: {
@@ -107,6 +107,8 @@ function createButton(text, className, toy) {
         console.log(response);
         const textElement = document.querySelector(`#likes-${response.id}`)
         textElement.replaceWith(createPLikes(response));
+        newButton.removeEventListener('click', likeEventHandler);
+        newButton.innerText = "Liked";
       })
     })
   return newButton;
