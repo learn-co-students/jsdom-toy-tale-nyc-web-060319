@@ -1,5 +1,6 @@
 const addBtn = document.querySelector('#new-toy-btn');
 const toyForm = document.querySelector('.container');
+const toyCreateForm = document.querySelector(".add-toy-form");
 let addToy = false;
 
 function flipToyFormState() {
@@ -9,7 +10,6 @@ function flipToyFormState() {
   } else {
     toyForm.style.display = 'none';
   }
-
 }
 
 addBtn.addEventListener('click', () => {
@@ -17,18 +17,10 @@ addBtn.addEventListener('click', () => {
   flipToyFormState();
 })
 
-const toyCreateForm = document.querySelector(".add-toy-form");
-
 document.addEventListener("DOMContentLoaded", () => {
   populateToysCards();
   toyCreateForm.addEventListener("submit", toySubmitHandler);
-
 })
-
-
-function createToyRequest(toy) {
-
-}
 
 function postToy(toy) {
   return fetch("http://localhost:3000/toys", {
@@ -41,7 +33,7 @@ function postToy(toy) {
   }).then(response => response.json());
 }
 
-function updateToyForm(response) {
+function updateToyForm(toy, response) {
   const toyCollection = document.querySelector("#toy-collection");
   toy["id"] = response.id;
   // toy["likes"] = ;
@@ -62,7 +54,7 @@ function toySubmitHandler(event) {
   }
   postToy(toy).then(response => {
     console.log(response);
-    updateToyForm(response);
+    updateToyForm(toy, response);
     // debugger;
   }).catch(error => {
     console.warn(error);
@@ -90,14 +82,33 @@ function createImg(image, className) {
 
 function createPLikes(toy) {
   const newPTag = document.createElement("p");
+  newPTag.id = `likes-${toy.id}`
   newPTag.innerText = `${toy.likes} likes`;
   return newPTag;
 }
 
-function createButton(text, className) {
+function createButton(text, className, toy) {
   const newButton = document.createElement("button");
   newButton.className = className;
   newButton.innerText = text;
+  // debugger;
+  newButton.addEventListener('click', (event) => {
+    fetch(`http://localhost:3000/toys/${toy.id}`, {
+      method: 'PATCH',
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: JSON.stringify({
+        "likes": (toy.likes + 1)
+      })
+    })
+      .then(response => response.json()).then(response => {
+        console.log(response);
+        const textElement = document.querySelector(`#likes-${response.id}`)
+        textElement.replaceWith(createPLikes(response));
+      })
+    })
   return newButton;
 }
 
@@ -107,7 +118,7 @@ function createToyCard(toy) {
   newToyCard.appendChild(createH2(toy.name));
   newToyCard.appendChild(createImg(toy.image, "toy-avatar"));
   newToyCard.appendChild(createPLikes(toy));
-  newToyCard.appendChild(createButton("Like <3", "like-btn"));
+  newToyCard.appendChild(createButton("Like <3", "like-btn", toy));
   return newToyCard;
 }
 
