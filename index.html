@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Toy Tale</title>
-
+    <script src="./src/index.js" defer></script>
     <link rel="stylesheet" href="index.css">
   </head>
   <body>
@@ -16,20 +16,18 @@
       <form class="add-toy-form" style="">
         <h3>Create a toy!</h3>
 
-        <input type="text" name="name" value="" placeholder="Enter a toy's name..." class="input-text">
+        <input type="text" name="name" value="" placeholder="Enter a toy's name..." class="input-text" id="new-toy-name">
         <br>
-        <input type="text" name="image" value="" placeholder="Enter a toy's image URL..." class="input-text">
+        <input type="text" name="image" value="" placeholder="Enter a toy's image URL..." class="input-text" id="new-toy-url">
         <br>
-        <input type="submit" name="submit" value="Create New Toy" class="submit">
+        <input type="submit" name="submit" value="Create New Toy" class="submit" id="create-toy">
       </form>
     </div>
     <p style='text-align:center' >Andy needs your help! <button id='new-toy-btn'>Add a new toy!</button></p>
 
 
     <div id="toy-collection">
+        <!-- Toy cards here -->
     </div>
-
-
-    <script type="text/javascript" src="src/index.js"></script>
   </body>
 </html>
