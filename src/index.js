@@ -52,7 +52,6 @@ document.addEventListener('DOMContentLoaded', function(){
 
     if(e.target.className == "like-btn") {
          let reqBtn = e.target;
-         console.log(parseInt(reqBtn.previousSibling.innerHTML.split(" ")[0]))
       fetch(`http://localhost:3000/toys/${reqBtn.dataset.id}`, {
         method: 'PATCH',
         headers: {
