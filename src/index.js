@@ -79,10 +79,6 @@ addToyForm.addEventListener('submit', e => {
   })
 })
 
-// likes button
-toyCollection.addEventListener('click', e => {
-  // console.log(e.target); // all toys
-})
 
 
 
